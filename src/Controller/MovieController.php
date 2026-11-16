@@ -8,11 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class MovieController extends AbstractController
 {
-    #[Route('/catalogue', name: 'app_movie_index')]
-
-    #[Route('/catalogue{id}', name: 'app_movie_show', requirements: ['id' => '\d+'], methods: ['GET'])]
-
-    #[Route('/api/catalogue', name: 'api_movie_list')]
+    #[Route('/movie', name: 'app_movie')]
     public function index(): Response
     {
         return $this->render('movie/index.html.twig', [
