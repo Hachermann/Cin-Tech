@@ -11,9 +11,9 @@ final class LegacyBoxOfficeService
         $tag = $entry['tag'] ?? null;
         $title = (string) ($entry['title'] ?? '');
 
-        // Pas de tag : on affiche seulement le titre, sans badge vide
-        if ($tag === null || $tag === '') {
-            return $title;
+        // Cahier des charges : sans tag renseigné, le film porte le badge [STANDARD]
+        if ($tag === null || trim((string) $tag) === '') {
+            $tag = 'standard';
         }
 
         return '[' . strtoupper((string) $tag) . '] ' . $title;
@@ -40,9 +40,13 @@ final class LegacyBoxOfficeService
     {
         $price = $basePrice;
 
-        if ($age < 18 || $age > 65) {
+        // -25 % pour les moins de 18 ans et dès 65 ans inclus
+        if ($age < 18 || $age >= 65) {
             $price *= 0.75;
-        } elseif ($isMember) {
+        }
+
+        // -20 % pour les abonnés, cumulable avec la remise d'âge
+        if ($isMember) {
             $price *= 0.80;
         }
 
