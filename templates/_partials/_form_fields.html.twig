@@ -1,0 +1,34 @@
+{# Affiche tous les champs d'un formulaire avec le style Tailwind du site #}
+{% for field in form %}
+    {% set prefixes = field.vars.block_prefixes %}
+    {% set has_error = field.vars.errors|length > 0 %}
+
+    {% if 'hidden' in prefixes %}
+        {{ form_widget(field) }}
+
+    {% elseif 'checkbox' in prefixes %}
+        <div class="flex items-center gap-3">
+            {{ form_widget(field, {'attr': {'class': 'h-5 w-5 rounded border-slate-600 bg-slate-900 accent-amber-400'}}) }}
+            {{ form_label(field, null, {'label_attr': {'class': 'text-sm font-semibold text-slate-300'}}) }}
+        </div>
+
+    {% else %}
+        {% if 'file' in prefixes %}
+            {% set input_class = 'block w-full text-sm text-slate-300 file:mr-4 file:rounded-lg file:border-0 file:bg-amber-400 file:px-4 file:py-2 file:font-semibold file:text-slate-900 hover:file:bg-amber-500' %}
+        {% else %}
+            {% set input_class = 'w-full rounded-lg border bg-slate-900 px-4 py-2.5 text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 '
+                ~ (has_error ? 'border-red-500 focus:ring-red-500/40' : 'border-slate-600 focus:border-amber-400 focus:ring-amber-400/40') %}
+        {% endif %}
+
+        <div class="flex flex-col gap-2">
+            {{ form_label(field, null, {'label_attr': {'class': 'text-sm font-semibold text-slate-300'}}) }}
+            {{ form_widget(field, {'attr': {'class': input_class}}) }}
+            {% if field.vars.help %}
+                <p class="text-xs text-slate-500">{{ field.vars.help }}</p>
+            {% endif %}
+            {% if has_error %}
+                <div class="text-sm text-red-400">{{ form_errors(field) }}</div>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endfor %}

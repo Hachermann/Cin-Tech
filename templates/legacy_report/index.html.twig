@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Rapport Legacy — CinéTech{% endblock %}
+
+{% block body %}
+<div class="min-h-screen bg-slate-900 text-slate-200">
+    <main class="mx-auto max-w-5xl px-6 py-10">
+        <span class="text-sm font-semibold uppercase tracking-widest text-amber-400">Box-office</span>
+        <h1 class="mb-2 mt-2 text-3xl font-bold text-slate-50">Rapport Legacy CinéTech</h1>
+        <p class="mb-10 text-slate-400">Notes moyennes des films et simulation des tarifs.</p>
+
+        {# Notes moyennes #}
+        <section class="mb-12">
+            <h2 class="mb-4 text-xl font-bold text-slate-50">Notes moyennes</h2>
+
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {% for item in report %}
+                    <article class="flex flex-col gap-3 rounded-xl border border-slate-700 bg-slate-800 p-5 transition hover:-translate-y-1 hover:border-amber-400">
+                        <h3 class="font-semibold text-slate-50">{{ item.label }}</h3>
+
+                        {% if item.average > 0 %}
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-3xl font-bold text-amber-400">{{ item.average }}</span>
+                                <span class="text-slate-400">/ 5</span>
+                            </div>
+                            <div class="h-2 w-full overflow-hidden rounded-full bg-slate-700">
+                                <div class="h-full rounded-full bg-amber-400" style="width: {{ (item.average / 5 * 100)|round }}%"></div>
+                            </div>
+                        {% else %}
+                            <p class="text-sm italic text-slate-500">Pas encore de note</p>
+                        {% endif %}
+                    </article>
+                {% else %}
+                    <p class="text-slate-400">Aucun film dans le rapport.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        {# Simulation tarifs #}
+        <section>
+            <h2 class="mb-4 text-xl font-bold text-slate-50">Simulation tarifs <span class="text-base font-normal text-slate-400">(base 12 €)</span></h2>
+
+            <div class="overflow-hidden rounded-xl border border-slate-700 bg-slate-800">
+                <table class="w-full text-left">
+                    <thead class="bg-slate-700/50 text-xs uppercase tracking-wider text-slate-400">
+                        <tr>
+                            <th class="px-6 py-3">Profil</th>
+                            <th class="px-6 py-3 text-right">Prix</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-700">
+                        {% for label, price in prices %}
+                            <tr class="transition hover:bg-slate-700/40">
+                                <td class="px-6 py-4 text-slate-200">{{ label }}</td>
+                                <td class="px-6 py-4 text-right">
+                                    <span class="font-semibold text-slate-50">{{ price|number_format(2, ',', ' ') }} €</span>
+                                    {% if price < 12 %}
+                                        <span class="ml-2 rounded-full bg-emerald-500/15 px-2 py-0.5 text-xs font-semibold text-emerald-400">
+                                            −{{ ((1 - price / 12) * 100)|round }} %
+                                        </span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+{% endblock %}

@@ -1,0 +1,7 @@
+{{ form_start(form, {'attr': {'class': 'space-y-5', 'novalidate': 'novalidate'}}) }}
+    {{ include('_partials/_form_fields.html.twig') }}
+
+    <button type="submit" class="w-full rounded-lg bg-amber-400 px-5 py-2.5 font-semibold text-slate-900 transition hover:bg-amber-500 sm:w-auto">
+        {{ button_label|default('Enregistrer') }}
+    </button>
+{{ form_end(form) }}

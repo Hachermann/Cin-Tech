@@ -1,13 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}Modifier le film{% endblock %}
+
 {% block body %}
-    <h1>Modifier l'élément</h1>
-{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-    {# Génère la balise <form>, tous les champs pré-remplis et le jeton CSRF #}
-    {{ form_widget(form) }}
-    
-<button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-Enregistrer
-</button>
-{{ form_end(form) }}
+<div class="min-h-screen bg-slate-900 px-6 py-10 text-slate-200">
+    <div class="mx-auto max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-8">
+        <a href="{{ path('app_movie_index') }}" class="text-sm text-amber-400 hover:text-amber-300">← Retour au catalogue</a>
+        <h1 class="mb-6 mt-4 text-3xl font-bold text-slate-50">
+            Modifier {% if movie is defined %}« {{ movie.title }} »{% else %}le film{% endif %}
+        </h1>
+
+        {{ include('movie/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    </div>
+</div>
 {% endblock %}

@@ -1,16 +1,14 @@
 {% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un film{% endblock %}
+
 {% block body %}
-<h1>Ajouter un produit</h1>
-{# novalidate désactive la validation HTML5 pour tester le Validator serveur #}
-{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
-{{ form_row(form.title) }}
-{{ form_row(form.synopsis) }}
-{{ form_row(form.date_sortie) }}
-{{ form_row(form.duree) }}
-{{ form_row(form.affiche) }}
-{{ form_row(form.note_presse) }}
-<button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">
-Enregistrer
-</button>
-{{ form_end(form) }}
+<div class="min-h-screen bg-slate-900 px-6 py-10 text-slate-200">
+    <div class="mx-auto max-w-2xl rounded-xl border border-slate-700 bg-slate-800 p-8">
+        <a href="{{ path('app_movie_index') }}" class="text-sm text-amber-400 hover:text-amber-300">← Retour au catalogue</a>
+        <h1 class="mb-6 mt-4 text-3xl font-bold text-slate-50">Ajouter un film</h1>
+
+        {{ include('movie/_form.html.twig', {'button_label': 'Ajouter le film'}) }}
+    </div>
+</div>
 {% endblock %}
